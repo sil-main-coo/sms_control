@@ -5,22 +5,22 @@ import 'package:sms_control/configs/shared_preferences_keys.dart';
 import 'package:sms_control/models/device.dart';
 
 class DeviceLocalProvider {
-  Future<List<Device>> getDevicesFromLocal() async {
-    List<Device> devices = [];
+  Future<List<Vehicle>> getDevicesFromLocal() async {
+    List<Vehicle> devices = [];
     final sharedPrefs = await SharedPreferences.getInstance();
     final rawData = sharedPrefs.getString(SharedPrefsKeys.devices);
     if (rawData != null) {
       final json = jsonDecode(rawData);
 
       json.forEach((v) {
-        devices.add(Device.fromJson(v));
+        devices.add(Vehicle.fromJson(v));
       });
     }
 
     return devices;
   }
 
-  Future<bool> saveDevicesToLocal(List<Device> devices) async {
+  Future<bool> saveDevicesToLocal(List<Vehicle> devices) async {
     final devicesJson = devices.map((v) => v.toJson()).toList();
 
     final sharedPrefs = await SharedPreferences.getInstance();

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:telephony/telephony.dart';
 
 import 'models/device.dart';
 import 'provider/local/device_local_provider.dart';
 import 'provider/singletons/get_it.dart';
 import 'views/home/home_screen.dart';
+import 'views/splash/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,27 +28,16 @@ class MyApp extends StatelessWidget {
                 }
               },
               child: MaterialApp(
-                title: 'Quản lý thiết bị',
+                title: 'Giám sát',
                 theme: ThemeData(
                   primarySwatch: Colors.blue,
                 ),
-                home: FutureBuilder<List<Device>>(
-                  future:
-                      locator.get<DeviceLocalProvider>().getDevicesFromLocal(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Device>> snapshot) {
-                    if (snapshot.hasData) {
-                      return HomeScreen(devices: snapshot.data);
-                    }
-
-                    return Scaffold(
-                      body: Center(
-                        child: const CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                ),
+                home: SplashScreen(),
               ),
             ));
   }
+}
+
+backgrounMessageHandler(SmsMessage message) async {
+  //Handle background message
 }

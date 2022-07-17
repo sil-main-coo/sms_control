@@ -9,36 +9,33 @@ import 'package:sms_control/views/widgets/floating_button_widget.dart';
 
 class CreateDeviceScreen extends StatelessWidget {
   CreateDeviceScreen(
-      {Key? key, required this.saveCallback, required this.devices})
+      {Key? key, required this.saveCallback, required this.vehicles})
       : super(key: key);
 
-  final Function(Device) saveCallback;
-  final List<Device> devices;
+  final Function(Vehicle) saveCallback;
+  final List<Vehicle> vehicles;
 
   final _customerCodeCtrl = TextEditingController();
   final _customerNameCtrl = TextEditingController();
   final _customerPhoneCtrl = TextEditingController();
-  final _customerAddressCtrl = TextEditingController();
 
   final _customnerCodeNode = FocusNode();
   final _customnerNameNode = FocusNode();
   final _customerPhoneNode = FocusNode();
-  final _customnerAddressNode = FocusNode();
 
   final _formKey = GlobalKey<FormState>(debugLabel: 'info');
 
   Future<void> saveDevice(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       FocusScope.of(context).unfocus();
-      final device = Device(
-        idKH: _customerCodeCtrl.text.trim(),
-        tenKH: _customerNameCtrl.text.trim(),
-        SDT: _customerPhoneCtrl.text.trim(),
-        diaChi: _customerAddressCtrl.text.trim(),
+      final device = Vehicle(
+        bienSo: _customerCodeCtrl.text.trim(),
+        ten: _customerNameCtrl.text.trim(),
+        sdt: _customerPhoneCtrl.text.trim(),
       );
 
-      devices.insert(0, device);
-      await locator.get<DeviceLocalProvider>().saveDevicesToLocal(devices);
+      vehicles.insert(0, device);
+      await locator.get<DeviceLocalProvider>().saveDevicesToLocal(vehicles);
 
       saveCallback(device);
       Navigator.pop(context);
@@ -50,7 +47,7 @@ class CreateDeviceScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Tạo mới thiết bị',
+          'Thêm mới xe',
           style: titleWhite.copyWith(fontSize: 22.sp),
         ),
         centerTitle: true,
@@ -73,40 +70,31 @@ class CreateDeviceScreen extends StatelessWidget {
           child: Column(
             children: [
               AppField(
-                controller: _customerCodeCtrl,
-                fcNode: _customnerCodeNode,
-                nextFcNode: _customnerNameNode,
-                autoFocus: true,
-                textInputAction: TextInputAction.next,
-                label: 'Mã khách hàng:',
-                hintText: 'Nhập mã khách hàng',
-              ),
-              AppField(
                 controller: _customerNameCtrl,
-                label: 'Tên khách hàng:',
+                label: 'Tên xe:',
                 isName: true,
                 fcNode: _customnerNameNode,
-                nextFcNode: _customerPhoneNode,
+                nextFcNode: _customnerCodeNode,
                 textInputAction: TextInputAction.next,
-                hintText: 'Nhập tên khách hàng',
+                hintText: 'Nhập tên xe',
+              ),
+              AppField(
+                controller: _customerCodeCtrl,
+                fcNode: _customnerCodeNode,
+                nextFcNode: _customerPhoneNode,
+                autoFocus: true,
+                textInputAction: TextInputAction.next,
+                label: 'Biển số:',
+                hintText: 'Nhập biển số xe',
               ),
               AppField(
                 controller: _customerPhoneCtrl,
-                label: 'Số điện thoại khách hàng:',
+                label: 'Số điện thoại:',
                 isName: true,
                 fcNode: _customerPhoneNode,
-                nextFcNode: _customnerAddressNode,
-                textInputAction: TextInputAction.next,
-                hintText: 'Nhập SĐT khách hàng',
-              ),
-              AppField(
-                controller: _customerAddressCtrl,
                 textInputAction: TextInputAction.done,
-                fcNode: _customnerAddressNode,
-                isName: true,
-                label: 'Địa chỉ khách hàng:',
-                hintText: 'Nhập địa chỉ khách hàng',
-              )
+                hintText: 'Nhập SĐT',
+              ),
             ],
           ),
         ),

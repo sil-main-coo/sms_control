@@ -9,14 +9,14 @@ import 'package:sms_control/views/widgets/layout_have_floating_button.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, this.devices = const []}) : super(key: key);
 
-  final List<Device>? devices;
+  final List<Vehicle>? devices;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late List<Device> devices;
+  late List<Vehicle> devices;
 
   @override
   void initState() {
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Thiết bị',
+          'Quản lý xe',
           style: titleWhite.copyWith(fontSize: 22.sp),
         ),
         centerTitle: true,
@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             context,
             MaterialPageRoute(
                 builder: (_) => CreateDeviceScreen(
-                      devices: devices,
+                      vehicles: devices,
                       saveCallback: (device) {
                         setState(() {});
                       },
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _bodyHome() {
     if (devices.isEmpty)
       return Center(
-        child: Text('Danh sách trống. Hãy tạo thiết bị mới'),
+        child: Text('Danh sách trống. Hãy thêm xe mới'),
       );
 
     return LayoutHaveFloatingButton(
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _item(Device data) {
+  Widget _item(Vehicle data) {
     final titleStyle = TextStyle(
         fontSize: 16.sp, fontWeight: FontWeight.normal, color: Colors.black);
     final valueStyle = TextStyle(
@@ -88,34 +88,23 @@ class _HomeScreenState extends State<HomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           RichText(
-              text: TextSpan(
-                  style: titleStyle,
-                  text: 'Mã khách hàng: ',
-                  children: [
-                TextSpan(text: '${data.idKH.toString()}', style: valueStyle)
-              ])),
+              text: TextSpan(style: titleStyle, text: 'Tên xe: ', children: [
+            TextSpan(
+                text: data.ten, style: valueStyle.copyWith(color: Colors.blue))
+          ])),
           RichText(
-              text: TextSpan(
-                  style: titleStyle,
-                  text: 'Tên khách hàng: ',
-                  children: [
-                TextSpan(
-                    text: data.tenKH,
-                    style: valueStyle.copyWith(color: Colors.blue))
-              ])),
+              text: TextSpan(style: titleStyle, text: 'Biển số: ', children: [
+            TextSpan(text: '${data.bienSo.toString()}', style: valueStyle)
+          ])),
           RichText(
               text: TextSpan(
                   style: titleStyle,
                   text: 'Số điện thoại: ',
                   children: [
                 TextSpan(
-                    text: data.SDT,
+                    text: data.sdt,
                     style: valueStyle.copyWith(color: Colors.blue))
               ])),
-          RichText(
-              text: TextSpan(style: titleStyle, text: 'Địa chỉ: ', children: [
-            TextSpan(text: '${data.diaChi.toString()}', style: valueStyle)
-          ])),
         ],
       ),
     );

@@ -1,21 +1,20 @@
 import 'dart:convert';
 
-class Device {
-  String? idKH, tenKH, diaChi, SDT;
+class Vehicle {
+  String? ten, bienSo, sdt;
 
-  Device({this.idKH, this.tenKH, this.diaChi, this.SDT});
+  Vehicle({this.ten, this.bienSo, this.sdt});
 
-  factory Device.fromJson(Map<String, dynamic> json) {
-    return Device(
-      idKH: json['idKH'],
-      tenKH: json['tenKH'],
-      diaChi: json['diaChi'],
-      SDT: json['SDT'],
+  factory Vehicle.fromJson(Map<String, dynamic> json) {
+    return Vehicle(
+      ten: json['ten'],
+      bienSo: json['bienSo'],
+      sdt: json['sdt'],
     );
   }
 
-  factory Device.fromRawData(String jsonString) {
-    return Device.fromJson(jsonDecode(jsonString));
+  factory Vehicle.fromRawData(String jsonString) {
+    return Vehicle.fromJson(jsonDecode(jsonString));
   }
 
   String toRawData() {
@@ -24,10 +23,9 @@ class Device {
 
   Map<String, dynamic> toJson() {
     return {
-      'idKH': this.idKH,
-      'tenKH': this.tenKH,
-      'diaChi': this.diaChi,
-      'SDT': this.SDT,
+      'ten': this.ten,
+      'bienSo': this.bienSo,
+      'sdt': this.sdt,
     };
   }
 }
